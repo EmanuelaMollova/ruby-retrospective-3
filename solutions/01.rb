@@ -15,7 +15,7 @@ class Integer
   end
 
   def digits
-    abs.to_s.chars.map { |char| char.to_i }
+    abs.to_s.chars.map(&:to_i)
   end
 end
 
