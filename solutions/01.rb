@@ -1,7 +1,7 @@
 class Integer
   def prime?
     return false if self <= 1
-    2.upto(pred).select { |number| remainder(number).zero? }.empty?
+    2.upto(pred).select { |divisor| remainder(divisor).zero? }.empty?
   end
 
   def prime_factors
