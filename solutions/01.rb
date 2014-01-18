@@ -21,9 +21,9 @@ end
 
 class Array
   def frequencies
-    frequencies = {}
-    uniq.each { |element| frequencies[element] = count(element) }
-    frequencies
+    uniq.each_with_object Hash.new(0) do |element, frequencies|
+      frequencies[element] = count(element)
+    end
   end
 
   def average
