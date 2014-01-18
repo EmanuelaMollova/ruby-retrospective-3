@@ -6,7 +6,7 @@ class Integer
 
   def prime_factors
     return [] if abs == 1
-    divisor = 2.upto(abs).find { |x| abs.remainder(x).zero? }
+    divisor = 2.upto(abs).find { |divisor| abs.remainder(divisor).zero? }
     [divisor] + (abs / divisor).prime_factors
   end
 
