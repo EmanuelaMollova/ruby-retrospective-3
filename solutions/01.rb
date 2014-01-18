@@ -11,9 +11,7 @@ class Integer
   end
 
   def harmonic
-    denumerator = 1.upto(self).reduce(:*)
-    numerator   = 1.upto(self).map { |x| denumerator / x }.reduce(:+)
-    Rational(numerator, denumerator)
+    1.upto(self).map { |number| 1 / number.to_r }.reduce(:+)
   end
 
   def digits
