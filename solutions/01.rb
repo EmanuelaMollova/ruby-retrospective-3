@@ -21,8 +21,8 @@ end
 
 class Array
   def frequencies
-    uniq.each_with_object Hash.new(0) do |element, frequencies|
-      frequencies[element] = count(element)
+    each_with_object Hash.new(0) do |element, frequencies|
+      frequencies[element] += 1
     end
   end
 
