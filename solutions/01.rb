@@ -31,7 +31,7 @@ class Array
   end
 
   def drop_every(n)
-    1.upto(size).select { |x| x.remainder(n).nonzero? }.map { |x| self[x-1] }
+    1.upto(size).select { |x| x.remainder(n).nonzero? }.map{ |x| at(x-1) }
   end
 
   def combine_with(other)
