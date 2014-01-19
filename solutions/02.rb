@@ -2,8 +2,10 @@ class Task
   attr_accessor :status, :description, :priority, :tags
 
   def initialize(status, description, priority, tags)
-    @status, @description, @priority = status, description, priority
-    @tags = tags
+    @status      = status
+    @description = description
+    @priority    = priority
+    @tags        = tags
   end
 
   class << self
