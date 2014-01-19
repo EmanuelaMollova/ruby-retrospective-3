@@ -36,7 +36,7 @@ class Array
 
   def combine_with(other)
     common   = [size, other.size].min
-    combined = self.first(common).zip(other.first(common)).flatten 1
+    combined = first(common).zip(other.first(common)).flatten 1
     rest     = other.size - size
     combined + (rest > 0 ? other.slice(common, rest) : slice(common, rest.abs))
   end
