@@ -35,9 +35,9 @@ class Array
   end
 
   def combine_with(other)
-    return other if empty?
-    combined = zip(other).reduce(:concat).compact
-    difference = other.size - size
-    difference > 0 ? combined + other.slice(size, difference) : combined
+    common   = [size, other.size].min
+    combined = self.first(common).zip(other.first(common)).flatten 1
+    rest     = other.size - size
+    combined + (rest > 0 ? other.slice(common, rest) : slice(common, rest.abs))
   end
 end
