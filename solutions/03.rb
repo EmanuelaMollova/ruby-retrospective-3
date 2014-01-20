@@ -97,8 +97,8 @@ module Graphics
       @y = y
     end
 
-    def pixels
-      [self]
+    def draw_on(canvas)
+      canvas.set_pixel(x, y)
     end
 
     def ==(other)
