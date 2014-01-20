@@ -14,7 +14,7 @@ class TodoList
 
   attr_accessor :tasks
 
-  def initialize(tasks)
+  def initialize(tasks = [])
     @tasks = tasks
   end
 
