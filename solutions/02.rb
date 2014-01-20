@@ -77,8 +77,6 @@ class TodoList
 end
 
 class Criteria
-  attr_accessor :condition
-
   def initialize(&condition)
     @condition = condition
   end
