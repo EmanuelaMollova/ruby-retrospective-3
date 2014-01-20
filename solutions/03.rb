@@ -21,7 +21,7 @@ module Graphics
     end
 
     def draw(figure)
-      figure.pixels.each { |pixel| set_pixel(pixel.x, pixel.y) }
+      figure.draw_on(self)
     end
   end
 
