@@ -9,16 +9,16 @@ class Task
   end
 
   class << self
-    def create_from_fields(fields)
-      status   = fields[0].downcase.to_sym
-      priority = fields[2].downcase.to_sym
-      tags     = fields[3] ? fields[3].split(',').each(&:strip!) : []
-      Task.new(status, fields[1], priority, tags)
+    def create_from_fields(status, description, priority, tags)
+      status   = status.downcase.to_sym
+      priority = priority.downcase.to_sym
+      tags     = tags ? tags.split(',').each(&:strip!) : []
+      Task.new(status, description, priority, tags)
     end
 
     def create_from_line(line)
       fields = line.split('|').each(&:strip!)
-      create_from_fields(fields)
+      create_from_fields(*fields)
     end
   end
 end
