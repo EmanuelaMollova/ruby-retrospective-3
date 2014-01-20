@@ -7,20 +7,6 @@ class Task
     @priority    = priority
     @tags        = tags
   end
-
-  class << self
-    def create_from_fields(status, description, priority, tags)
-      status   = status.downcase.to_sym
-      priority = priority.downcase.to_sym
-      tags     = tags.split(',').map(&:strip)
-      Task.new(status, description, priority, tags)
-    end
-
-    def create_from_line(line)
-      fields = line.split('|').map(&:strip)
-      create_from_fields(*fields)
-    end
-  end
 end
 
 class TodoList
@@ -64,6 +50,32 @@ class TodoList
   def each
     @tasks.each { |task| yield(task) }
   end
+
+  class Parser
+    attr_accessor :tasks
+
+    def initialize(text)
+      @tasks = parse_lines(text)
+    end
+
+    def parse_lines(text)
+      tasks = text.lines.map { |line| create_from_line(line) }
+      TodoList.new(tasks)
+    end
+
+    def create_from_line(line)
+      fields = line.split('|').map(&:strip)
+      create_from_fields(*fields)
+    end
+
+    def create_from_fields(status, description, priority, tags)
+      status = status.downcase.to_sym
+      priority = priority.downcase.to_sym
+      tags = tags.split(',').map(&:strip)
+      Task.new(status, description, priority, tags)
+    end
+  end
+
 end
 
 class Criteria
