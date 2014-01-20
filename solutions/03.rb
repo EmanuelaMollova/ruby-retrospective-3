@@ -130,8 +130,8 @@ module Graphics
       @to    = points.last
     end
 
-    def pixels
-      ([@from, @to] + rasterize_line).uniq
+    def draw_on(canvas)
+      ([@from, @to] + rasterize_line).uniq.each { |point| point.draw_on(canvas) }
     end
 
     def rasterize_line(from = @from, to = @to, points = [])
