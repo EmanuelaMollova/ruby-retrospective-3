@@ -53,38 +53,38 @@ module Graphics
         @end_of_line  = '<br>'
       end
 
-      def header
-        '<!DOCTYPE html>
-        <html>
-        <head>
-          <title>Rendered Canvas</title>
-          <style type="text/css">
-            .canvas {
-              font-size: 1px;
-              line-height: 1px;
-            }
-            .canvas * {
-              display: inline-block;
-              width: 10px;
-              height: 10px;
-              border-radius: 5px;
-            }
-            .canvas i {
-              background-color: #eee;
-            }
-            .canvas b {
-              background-color: #333;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="canvas">'
-      end
-
-      def footer
-        '</div>
+      def render(canvas)
+        <<-HEADER + super + <<-FOOTER
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Rendered Canvas</title>
+            <style type="text/css">
+              .canvas {
+                font-size: 1px;
+                line-height: 1px;
+              }
+              .canvas * {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                border-radius: 5px;
+              }
+              .canvas i {
+                background-color: #eee;
+              }
+              .canvas b {
+                background-color: #333;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="canvas">
+        HEADER
+            </div>
           </body>
-        </html>'
+          </html>
+        FOOTER
       end
     end
   end
