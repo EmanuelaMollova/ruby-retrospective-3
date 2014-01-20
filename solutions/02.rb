@@ -39,27 +39,27 @@ class TodoList
   end
 
   def filter(criteria)
-    TodoList.new(@tasks.select { |task| criteria.meets? task })
+    TodoList.new @tasks.select { |task| criteria.meets? task }
   end
 
   def adjoin(todo_list)
-    TodoList.new(@tasks + todo_list.tasks)
+    TodoList.new @tasks + todo_list.tasks
   end
 
   def each
-    @tasks.each { |task| yield(task) }
+    @tasks.each { |task| yield task }
   end
 
   class Parser
     attr_accessor :tasks
 
     def initialize(text)
-      @tasks = parse_lines(text)
+      @tasks = parse_lines text
     end
 
     def parse_lines(text)
       tasks = text.lines.map { |line| create_from_line(line) }
-      TodoList.new(tasks)
+      TodoList.new tasks
     end
 
     def create_from_line(line)
