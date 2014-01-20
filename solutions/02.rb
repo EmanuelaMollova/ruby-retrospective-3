@@ -12,12 +12,12 @@ class Task
     def create_from_fields(status, description, priority, tags)
       status   = status.downcase.to_sym
       priority = priority.downcase.to_sym
-      tags     = tags ? tags.split(',').each(&:strip!) : []
+      tags     = tags.split(',').map(&:strip)
       Task.new(status, description, priority, tags)
     end
 
     def create_from_line(line)
-      fields = line.split('|').each(&:strip!)
+      fields = line.split('|').map(&:strip)
       create_from_fields(*fields)
     end
   end
