@@ -23,19 +23,19 @@ class TodoList
   end
 
   def completed?
-    tasks.all? { |task| task.status.equal? :done }
+    tasks.all? { |task| task.status == :done }
   end
 
   def tasks_todo
-    tasks.select { |task| task.status.equal? :todo }.size
+    tasks.select { |task| task.status == :todo }.size
   end
 
   def tasks_in_progress
-    tasks.select { |task| task.status.equal? :current }.size
+    tasks.select { |task| task.status == :current }.size
   end
 
   def tasks_completed
-    tasks.select { |task| task.status.equal? :done }.size
+    tasks.select { |task| task.status == :done }.size
   end
 
   def filter(criteria)
@@ -84,15 +84,15 @@ class Criteria
   end
 
   def Criteria.status(status)
-    Criteria.new { |task| task.status.equal? status }
+    Criteria.new { |task| task.status == status }
   end
 
   def Criteria.priority(priority)
-    Criteria.new { |task| task.priority.equal? priority }
+    Criteria.new { |task| task.priority == priority }
   end
 
   def Criteria.tags(tags)
-    Criteria.new { |task| (tags & task.tags).size.equal? tags.size }
+    Criteria.new { |task| (tags & task.tags).size == tags.size }
   end
 
   def &(other)
