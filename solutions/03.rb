@@ -122,6 +122,7 @@ module Graphics
 
   class Line
     include Figure
+
     attr_reader :from, :to
 
     def initialize(from, to)
@@ -190,11 +191,13 @@ module Graphics
       vertexes[3]
     end
 
-    def pixels
-      (Line.new(bottom_left, bottom_right).pixels +
-       Line.new(top_right, bottom_right).pixels +
-       Line.new(top_left, top_right).pixels +
-       Line.new(top_left, bottom_left).pixels).uniq
+    def draw_on(canvas)
+      [
+        Line.new(bottom_left, bottom_right),
+        Line.new(top_right, bottom_right),
+        Line.new(top_left, top_right),
+        Line.new(top_left, bottom_left)
+      ].each { |line| line.draw_on(canvas) }
     end
 
     def ==(other)
