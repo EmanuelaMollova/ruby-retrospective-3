@@ -83,6 +83,10 @@ class Criteria
     @condition = condition
   end
 
+  def meets? (task)
+    @condition.call task
+  end
+
   class << self
     def status(status)
       Criteria.new { |task| task.status == status }
@@ -98,14 +102,14 @@ class Criteria
   end
 
   def &(other)
-    Criteria.new { |task| (self.condition).call(task) and (other.condition).call(task) }
+    Criteria.new { |task| meets? task and other.meets? task }
   end
 
   def |(other)
-    Criteria.new { |task| (self.condition).call(task) or (other.condition).call(task) }
+    Criteria.new { |task| meets? task or other.meets? task }
   end
 
   def !
-    Criteria.new { |task| !(self.condition).call(task) }
+    Criteria.new { |task| !meets? task }
   end
 end
