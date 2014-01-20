@@ -68,9 +68,9 @@ class TodoList
     end
 
     def create_from_fields(status, description, priority, tags)
-      status = status.downcase.to_sym
+      status   = status.downcase.to_sym
       priority = priority.downcase.to_sym
-      tags = tags.split(',').map(&:strip)
+      tags     = tags.split(',').map(&:strip)
       Task.new status, description, priority, tags
     end
   end
