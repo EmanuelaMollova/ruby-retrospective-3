@@ -166,7 +166,7 @@ module Graphics
       @right = points.last
     end
 
-    def vertexes
+    def vertices
       sort_points(
         @left,
         @right,
@@ -175,20 +175,15 @@ module Graphics
       )
     end
 
-    def top_left
-      vertexes[0]
-    end
+    VERTICES = {
+      top_left:     0,
+      bottom_left:  1,
+      top_right:    2,
+      bottom_right: 3
+    }
 
-    def bottom_left
-      vertexes[1]
-    end
-
-    def top_right
-      vertexes[2]
-    end
-
-    def bottom_right
-      vertexes[3]
+    VERTICES.each do |vertex_name, index|
+      define_method(vertex_name) { vertices[index] }
     end
 
     def draw_on(canvas)
