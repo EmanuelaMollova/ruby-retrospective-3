@@ -5,15 +5,15 @@ module Graphics
     def initialize(width, height)
       @width         = width
       @height        = height
-      @filled_pixels = []
+      @pixels        = {}
     end
 
     def set_pixel(x, y)
-      @filled_pixels << [x, y]
+      @pixels[[x, y]] = true
     end
 
     def pixel_at?(x, y)
-      @filled_pixels.include? [x, y]
+      @pixels[[x, y]]
     end
 
     def render
