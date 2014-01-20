@@ -16,19 +16,8 @@ module Graphics
       @pixels[[x, y]]
     end
 
-    def render
-      canvas = Array.new(@width * @height, 0)
-      @filled_pixels.each { |pixel| canvas[pixel.last * @width + pixel.first] = 1 }
-      canvas.each_slice(@width).to_a.map(&:join).join('2')
-    end
-
     def render_as(renderer)
-      rendered = render.gsub(/[012]/, renderer.dictionary)
-      if renderer == Graphics::Renderers::Html
-        renderer.header + rendered + renderer.footer
-      else
-        rendered
-      end
+      renderer.new.render(self)
     end
 
     def draw(figure)
