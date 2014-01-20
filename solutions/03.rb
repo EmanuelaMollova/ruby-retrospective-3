@@ -150,7 +150,7 @@ module Graphics
     end
 
     def hash
-      [from, to].map(&:hash).reduce(:+)
+      [from, to].hash
     end
   end
 
@@ -205,7 +205,7 @@ module Graphics
     end
 
     def hash
-      [left, right].map(&:hash).reduce(:+)
+      [left, right].hash
     end
   end
 end
