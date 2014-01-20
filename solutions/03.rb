@@ -27,52 +27,52 @@ module Graphics
 
   module Renderers
     class Ascii
-      class << self
-        def dictionary
-          {'0' => '-', '1' => '@', '2' => "\n"}
-        end
+      def initialize
+        @filled_pixel = '@'
+        @empty_pixel  = '-'
+        @end_of_line  = "\n"
       end
     end
 
     class Html
-      class << self
-        def dictionary
-          {'0' => '<i></i>', '1' => '<b></b>', '2' => '<br>'}
-        end
+      def initialize
+        @filled_pixel = '<b></b>'
+        @empty_pixel  = '<i></i>'
+        @end_of_line  = '<br>'
+      end
 
-        def header
-          '<!DOCTYPE html>
-          <html>
-          <head>
-            <title>Rendered Canvas</title>
-            <style type="text/css">
-              .canvas {
-                font-size: 1px;
-                line-height: 1px;
-              }
-              .canvas * {
-                display: inline-block;
-                width: 10px;
-                height: 10px;
-                border-radius: 5px;
-              }
-              .canvas i {
-                background-color: #eee;
-              }
-              .canvas b {
-                background-color: #333;
-              }
-            </style>
-          </head>
-          <body>
-            <div class="canvas">'
-        end
+      def header
+        '<!DOCTYPE html>
+        <html>
+        <head>
+          <title>Rendered Canvas</title>
+          <style type="text/css">
+            .canvas {
+              font-size: 1px;
+              line-height: 1px;
+            }
+            .canvas * {
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              border-radius: 5px;
+            }
+            .canvas i {
+              background-color: #eee;
+            }
+            .canvas b {
+              background-color: #333;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="canvas">'
+      end
 
-        def footer
-          '</div>
-           </body>
-          </html>'
-        end
+      def footer
+        '</div>
+          </body>
+        </html>'
       end
     end
   end
