@@ -83,16 +83,18 @@ class Criteria
     @block = block
   end
 
-  def Criteria.status(status)
-    Criteria.new { |task| task.status == status }
-  end
+  class << self
+    def status(status)
+      Criteria.new { |task| task.status == status }
+    end
 
-  def Criteria.priority(priority)
-    Criteria.new { |task| task.priority == priority }
-  end
+    def priority(priority)
+      Criteria.new { |task| task.priority == priority }
+    end
 
-  def Criteria.tags(tags)
-    Criteria.new { |task| (tags & task.tags).size == tags.size }
+    def tags(tags)
+      Criteria.new { |task| (tags & task.tags).size == tags.size }
+    end
   end
 
   def &(other)
