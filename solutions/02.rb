@@ -39,7 +39,7 @@ class TodoList
   end
 
   def filter(criteria)
-    TodoList.new(@tasks.select(&criteria.condition))
+    TodoList.new(@tasks.select { |task| criteria.meets? task })
   end
 
   def adjoin(todo_list)
