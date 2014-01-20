@@ -19,8 +19,7 @@ class TodoList
   end
 
   def self.parse(text)
-    tasks = text.lines.map { |line| Task.create_from_line(line) }
-    TodoList.new(tasks)
+    TodoList.new Parser.new(text).tasks
   end
 
   def completed?
