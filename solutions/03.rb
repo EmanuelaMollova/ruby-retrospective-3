@@ -197,15 +197,15 @@ module Graphics
     end
 
     def ==(other)
-      @left == other.left and @right == other.right
+      top_left == other.top_left and bottom_right == other.bottom_right
     end
 
     def eql?(other)
-      @left.eql? other.left and @right.eql? other.right
+      top_left.eql? other.top_left and bottom_right.eql? other.bottom_right
     end
 
     def hash
-      [left, right].hash
+      [top_left, bottom_right].hash
     end
   end
 end
