@@ -1,5 +1,5 @@
 class Task
-  attr_accessor :status, :description, :priority, :tags
+  attr_reader :status, :description, :priority, :tags
 
   def initialize(status, description, priority, tags)
     @status      = status
@@ -12,7 +12,7 @@ end
 class TodoList
   include Enumerable
 
-  attr_accessor :tasks
+  attr_reader :tasks
 
   def initialize(tasks = [])
     @tasks = tasks
@@ -51,7 +51,7 @@ class TodoList
   end
 
   class Parser
-    attr_accessor :tasks
+    attr_reader :tasks
 
     def initialize(text)
       @tasks = parse_lines text
