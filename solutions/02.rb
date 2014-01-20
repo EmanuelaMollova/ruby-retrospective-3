@@ -39,7 +39,7 @@ class TodoList
   end
 
   def filter(criteria)
-    TodoList.new(@tasks.select(&criteria.block))
+    TodoList.new(@tasks.select(&criteria.condition))
   end
 
   def adjoin(todo_list)
@@ -77,10 +77,10 @@ class TodoList
 end
 
 class Criteria
-  attr_accessor :block
+  attr_accessor :condition
 
-  def initialize(&block)
-    @block = block
+  def initialize(&condition)
+    @condition = condition
   end
 
   class << self
@@ -98,14 +98,14 @@ class Criteria
   end
 
   def &(other)
-    Criteria.new { |task| (self.block).call(task) and (other.block).call(task) }
+    Criteria.new { |task| (self.condition).call(task) and (other.condition).call(task) }
   end
 
   def |(other)
-    Criteria.new { |task| (self.block).call(task) or (other.block).call(task) }
+    Criteria.new { |task| (self.condition).call(task) or (other.condition).call(task) }
   end
 
   def !
-    Criteria.new { |task| !(self.block).call(task) }
+    Criteria.new { |task| !(self.condition).call(task) }
   end
 end
