@@ -26,6 +26,18 @@ module Graphics
   end
 
   module Renderers
+    def render(canvas)
+      rows = 0.upto(canvas.height - 1).map do |y|
+        0.upto(canvas.width - 1).map { |x| draw_pixel(x, y, canvas) }
+      end
+
+      rows = rows.map(&:join).join(@end_of_line)
+    end
+
+    def draw_pixel(x, y, canvas)
+      canvas.pixel_at?(x, y) ? @filled_pixel : @empty_pixel
+    end
+
     class Ascii
       def initialize
         @filled_pixel = '@'
