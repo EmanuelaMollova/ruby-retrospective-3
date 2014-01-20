@@ -27,15 +27,15 @@ class TodoList
   end
 
   def tasks_todo
-    tasks.select { |task| task.status == :todo }.size
+    tasks.count { |task| task.status == :todo }
   end
 
   def tasks_in_progress
-    tasks.select { |task| task.status == :current }.size
+    tasks.count { |task| task.status == :current }
   end
 
   def tasks_completed
-    tasks.select { |task| task.status == :done }.size
+    tasks.count { |task| task.status == :done }
   end
 
   def filter(criteria)
