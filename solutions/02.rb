@@ -23,27 +23,27 @@ class TodoList
   end
 
   def completed?
-    tasks.all? { |task| task.status == :done }
+    @tasks.all? { |task| task.status == :done }
   end
 
   def tasks_todo
-    tasks.count { |task| task.status == :todo }
+    @tasks.count { |task| task.status == :todo }
   end
 
   def tasks_in_progress
-    tasks.count { |task| task.status == :current }
+    @tasks.count { |task| task.status == :current }
   end
 
   def tasks_completed
-    tasks.count { |task| task.status == :done }
+    @tasks.count { |task| task.status == :done }
   end
 
   def filter(criteria)
-    TodoList.new(tasks.select(&criteria.block))
+    TodoList.new(@tasks.select(&criteria.block))
   end
 
   def adjoin(todo_list)
-    TodoList.new(tasks + todo_list.tasks)
+    TodoList.new(@tasks + todo_list.tasks)
   end
 
   def each
