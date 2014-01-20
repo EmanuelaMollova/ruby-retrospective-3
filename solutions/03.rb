@@ -25,7 +25,7 @@ module Graphics
     end
   end
 
-  module Renderers
+  class Renderers
     def render(canvas)
       rows = 0.upto(canvas.height - 1).map do |y|
         0.upto(canvas.width - 1).map { |x| draw_pixel(x, y, canvas) }
@@ -38,7 +38,7 @@ module Graphics
       canvas.pixel_at?(x, y) ? @filled_pixel : @empty_pixel
     end
 
-    class Ascii
+    class Ascii < Renderers
       def initialize
         @filled_pixel = '@'
         @empty_pixel  = '-'
@@ -46,7 +46,7 @@ module Graphics
       end
     end
 
-    class Html
+    class Html < Renderers
       def initialize
         @filled_pixel = '<b></b>'
         @empty_pixel  = '<i></i>'
