@@ -72,10 +72,9 @@ class TodoList
       status = status.downcase.to_sym
       priority = priority.downcase.to_sym
       tags = tags.split(',').map(&:strip)
-      Task.new(status, description, priority, tags)
+      Task.new status, description, priority, tags
     end
   end
-
 end
 
 class Criteria
