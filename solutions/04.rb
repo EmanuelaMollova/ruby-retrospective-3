@@ -26,7 +26,7 @@ module Asm
       @next_instruction = (@labels[where] or where)
     end
 
-    jumps = {
+    JUMPS = {
       je:  :'==',
       jne: :'!=',
       jl:  :'<',
@@ -35,7 +35,7 @@ module Asm
       jge: :'>=',
     }
 
-    jumps.each do |jump_name, comparison|
+    JUMPS.each do |jump_name, comparison|
       define_method jump_name do |where|
         @last_comparison.public_send(comparison, 0) ? (return jmp(where)) : @next_instruction = @next_instruction.succ
       end
