@@ -23,7 +23,7 @@ module Asm
 
   module Jumps
     def jmp(where)
-      @next_instruction = (@labels[where] or where)
+      @next_instruction = (@labels[where] or where) - 1
     end
 
     JUMPS = {
@@ -37,11 +37,7 @@ module Asm
 
     JUMPS.each do |jump_name, comparison|
       define_method jump_name do |where|
-        if @last_comparison.public_send(comparison, 0)
-          return jmp(where)
-        else
-          @next_instruction = @next_instruction + 1
-        end
+        return jmp(where) if @last_comparison.public_send(comparison, 0)
       end
     end
   end
