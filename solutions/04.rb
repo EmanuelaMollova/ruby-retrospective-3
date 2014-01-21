@@ -1,5 +1,5 @@
 module Asm
-  module Operations
+  module RegisterActions
     def mov(destination_register, source)
       @registers[destination_register] = find_value(source)
     end
@@ -23,7 +23,7 @@ module Asm
 
   module Jumps
     def jmp(where)
-      @pc = (@labels[where] or where)
+      @next_instruction = (@labels[where] or where)
     end
 
     jumps = {
@@ -37,16 +37,16 @@ module Asm
 
     jumps.each do |jump_name, comparison|
       define_method jump_name do |where|
-        @last_comparison.public_send(comparison, 0) ? (return jmp(where)) : @pc = @pc.succ
+        @last_comparison.public_send(comparison, 0) ? (return jmp(where)) : @next_instruction = @next_instruction.succ
       end
     end
   end
 
-  class Evaluator
-    include Operations
+  class Compiler
+    include RegisterActions
     include Jumps
 
-    class Storage
+    class Parser
       attr_reader :labels, :methods_to_call
 
       def initialize(&block)
@@ -56,7 +56,7 @@ module Asm
       end
 
       def method_missing(method_name, *args)
-        if (Operations.instance_methods + Jumps.instance_methods).include? method_name
+        if (RegisterActions.instance_methods + Jumps.instance_methods).include? method_name
           @methods_to_call << [method_name, args]
         else
           method_name.to_sym
@@ -69,26 +69,26 @@ module Asm
     end
 
     def initialize(&block)
-      @registers       = {ax: 0, bx: 0, cx: 0, dx: 0}
-      @last_comparison = 0
-      @pc              = 0
-      storage          = Storage.new(&block)
-      @methods_to_call = storage.methods_to_call
-      @labels          = storage.labels
+      @registers        = {ax: 0, bx: 0, cx: 0, dx: 0}
+      @last_comparison  = 0
+      @next_instruction = 0
+      parsed            = Parser.new(&block)
+      @methods_to_call  = storage.methods_to_call
+      @labels           = storage.labels
     end
 
-    def evaluate
-      while @pc < @methods_to_call.size
-        method_name = @methods_to_call[@pc].first
-        args        = @methods_to_call[@pc].last
+    def run
+      while @next_instruction < @methods_to_call.size
+        method_name = @methods_to_call[@next_instruction].first
+        args        = @methods_to_call[@next_instruction].last
         public_send(method_name, *args)
-        @pc = @pc.succ if !Jumps.instance_methods.include? method_name
+        @next_instruction = @next_instruction.succ if !Jumps.instance_methods.include? method_name
       end
       @registers.values
     end
   end
 
   def self.asm(&block)
-    Evaluator.new(&block).evaluate
+    Compiler.new(&block).run
   end
 end
