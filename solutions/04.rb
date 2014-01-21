@@ -40,7 +40,7 @@ module Asm
         if @last_comparison.public_send(comparison, 0)
           return jmp(where)
         else
-          @next_instruction = @next_instruction.succ
+          @next_instruction = @next_instruction + 1
         end
       end
     end
@@ -84,7 +84,7 @@ module Asm
     def run
       while @next_instruction < @methods_to_call.size
         public_send *@methods_to_call[@next_instruction]
-        @next_instruction = @next_instruction.succ if !Jumps.instance_methods.include? method_name
+        @next_instruction = @next_instruction + 1 if !Jumps.instance_methods.include? method_name
       end
       @registers.values
     end
