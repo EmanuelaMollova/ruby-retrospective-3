@@ -132,7 +132,7 @@ module Graphics
     end
 
     def draw_on(canvas)
-      ([@from, @to] + rasterize_line).uniq.each { |point| point.draw_on(canvas) }
+      BresenhamRasterization.new(from, to).draw_rasterized_line_on(canvas)
     end
 
     def rasterize_line(from = @from, to = @to, points = [])
