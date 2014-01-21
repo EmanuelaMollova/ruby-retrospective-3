@@ -3,9 +3,9 @@ module Graphics
     attr_reader :width,:height
 
     def initialize(width, height)
-      @width         = width
-      @height        = height
-      @pixels        = {}
+      @width  = width
+      @height = height
+      @pixels = {}
     end
 
     def set_pixel(x, y)
@@ -153,6 +153,62 @@ module Graphics
 
     def hash
       [from, to].hash
+    end
+
+    class BresenhamRasterization
+      def initialize(from, to)
+        @from_x, @from_y = from.x, from.y
+        @to_x, @to_y     = to.x, to.y
+        @steep_slope     = (@to_y - @from_y).abs > (@to_x - @from_x).abs
+        prepare_values
+      end
+
+      def reverse_if_steep_slope
+        if @steep_slope
+          @from_x, @from_y = @from_y, @from_x
+          @to_x, @to_y     = @to_y, @to_x
+        end
+      end
+
+      def set_from_and_to_coordinates
+        if @from_x > @to_x
+          @from_x, @to_x = @to_x, @from_x
+          @from_y, @to_y = @to_y, @from_x
+        end
+        @y = @from_y
+      end
+
+      def set_delta_and_error
+        @delta_x = @to_x - @from_x
+        @delta_y = (@to_y - @from_y).abs
+        @error   = (@delta_x / 2).to_i
+      end
+
+      def set_y_step
+        @from_y < @to_y ? @y_step = 1 : @y_step = -1
+      end
+
+      def prepare_values
+        reverse_if_steep_slope
+        set_from_and_to_coordinates
+        set_delta_and_error
+        set_y_step
+      end
+
+      def recalculate_values
+          @error -= @delta_y
+          if @error < 0
+            @y     += @y_step
+            @error += @delta_x
+          end
+      end
+
+      def draw_rasterized_line_on(canvas)
+        (@from_x).upto(@to_x).each do |x|
+          @steep_slope ? canvas.set_pixel(@y, x) : canvas.set_pixel(x, @y)
+          recalculate_values
+        end
+      end
     end
   end
 
