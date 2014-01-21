@@ -132,7 +132,7 @@ module Graphics
     end
 
     def draw_on(canvas)
-      BresenhamRasterization.new(from, to).draw_rasterized_line_on(canvas)
+      BresenhamRasterization.new(from, to).draw_line_on(canvas)
     end
 
     def rasterize_line(from = @from, to = @to, points = [])
@@ -203,7 +203,7 @@ module Graphics
           end
       end
 
-      def draw_rasterized_line_on(canvas)
+      def draw_line_on(canvas)
         (@from_x).upto(@to_x).each do |x|
           @steep_slope ? canvas.set_pixel(@y, x) : canvas.set_pixel(x, @y)
           recalculate_values
