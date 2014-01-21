@@ -83,9 +83,7 @@ module Asm
 
     def run
       while @next_instruction < @methods_to_call.size
-        method_name = @methods_to_call[@next_instruction].first
-        args        = @methods_to_call[@next_instruction].last
-        public_send(method_name, *args)
+        public_send *@methods_to_call[@next_instruction]
         @next_instruction = @next_instruction.succ if !Jumps.instance_methods.include? method_name
       end
       @registers.values
