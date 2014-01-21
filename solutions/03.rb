@@ -135,14 +135,6 @@ module Graphics
       BresenhamRasterization.new(from, to).draw_line_on(canvas)
     end
 
-    def rasterize_line(from = @from, to = @to, points = [])
-      point = Point.new(((from.x + to.x)/2.0).ceil, ((from.y + to.y)/2.0).ceil)
-      return points.uniq if (point == from or point == to)
-      points << point
-      rasterize_line(from, point, points) if point != from
-      rasterize_line(point, to, points) if point != to
-    end
-
     def ==(other)
       @from == other.from and @to == other.to
     end
@@ -204,7 +196,7 @@ module Graphics
       end
 
       def draw_line_on(canvas)
-        (@from_x).upto(@to_x).each do |x|
+        @from_x.upto(@to_x).each do |x|
           @steep_slope ? canvas.set_pixel(@y, x) : canvas.set_pixel(x, @y)
           recalculate_values
         end
