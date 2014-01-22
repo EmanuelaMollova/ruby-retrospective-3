@@ -56,7 +56,8 @@ module Asm
       end
 
       def method_missing(method_name, *args)
-        if (RegisterActions.instance_methods + Jumps.instance_methods).include? method_name
+        assembler_methods = [RegisterActions, Jumps].map(&:instance_methods)
+        if assembler_methods.any? { |methods| methods.include? method_name }
           @methods_to_call << [method_name, args]
         else
           method_name.to_sym
