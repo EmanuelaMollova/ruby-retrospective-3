@@ -71,7 +71,6 @@ module Asm
 
     def initialize(&block)
       @registers        = {ax: 0, bx: 0, cx: 0, dx: 0}
-      @last_comparison  = 0
       @next_instruction = 0
       parsed            = Parser.new(&block)
       @methods_to_call  = storage.methods_to_call
