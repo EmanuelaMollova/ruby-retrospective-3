@@ -26,6 +26,10 @@ module Asm
       @next_instruction = (@labels[where] or where) - 1
     end
 
+    def jmp_if_comparison_is_true(where, comparison)
+      return jmp(where) if @last_comparison.public_send(comparison, 0)
+    end
+
     JUMPS = {
       je:  :'==',
       jne: :'!=',
@@ -37,7 +41,7 @@ module Asm
 
     JUMPS.each do |jump_name, comparison|
       define_method jump_name do |where|
-        return jmp(where) if @last_comparison.public_send(comparison, 0)
+        jmp_if_comparison_is_true(where, comparison)
       end
     end
   end
@@ -58,7 +62,7 @@ module Asm
       def method_missing(method_name, *args)
         assembler_methods = [RegisterActions, Jumps].map(&:instance_methods)
         if assembler_methods.any? { |methods| methods.include? method_name }
-          @methods_to_call << [method_name, args]
+          @methods_to_call << [method_name, *args]
         else
           method_name.to_sym
         end
@@ -73,8 +77,8 @@ module Asm
       @registers        = {ax: 0, bx: 0, cx: 0, dx: 0}
       @next_instruction = 0
       parsed            = Parser.new(&block)
-      @methods_to_call  = storage.methods_to_call
-      @labels           = storage.labels
+      @methods_to_call  = parsed.methods_to_call
+      @labels           = parsed.labels
     end
 
     def run
